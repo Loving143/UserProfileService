@@ -4,9 +4,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 
+import com.user.entity.UserProfiles;
+
 public class UserProfileResponse {
+	
     private Long id;
-    private Long userId;
+    private String userName;
     private String firstName;
     private String lastName;
     private LocalDate dateOfBirth;
@@ -15,11 +18,24 @@ public class UserProfileResponse {
     private String profilePicture;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer age; // Calculated field
+    private Integer age;
     
-    public Integer getAge() {
-        if (dateOfBirth == null) return null;
-        return Period.between(dateOfBirth, LocalDate.now()).getYears();
+    public UserProfileResponse(UserProfiles userProfiles) {
+    	this.id = userProfiles.getId();
+    	this.userName = userProfiles.getUserName();
+    	this.firstName = userProfiles.getFirstName();
+    	this.lastName = userProfiles.getLastName();
+    	this.dateOfBirth = userProfiles.getDateOfBirth();
+    	this.phoneNumber = userProfiles.getPhoneNumber();
+    	this.bloodGroup = userProfiles.getBloodGroup();
+    	this.profilePicture = userProfiles.getProfilePicture();
+    	this.createdAt = userProfiles.getCreatedAt();
+    	this.updatedAt = userProfiles.getUpdatedAt();
+    	this.age = userProfiles.getAge();
+	}
+
+	public Integer getAge() {
+        return age;
     }
 
 	public Long getId() {
@@ -28,14 +44,6 @@ public class UserProfileResponse {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -102,9 +110,19 @@ public class UserProfileResponse {
 		this.updatedAt = updatedAt;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public void setAge(Integer age) {
 		this.age = age;
 	}
+
+	
     
     
 }

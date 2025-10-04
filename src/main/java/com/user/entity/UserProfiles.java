@@ -18,8 +18,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user_profiles") 
+@Table(name = "user_profiles")
 public class UserProfiles {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -52,6 +53,8 @@ public class UserProfiles {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+    
+    private Integer age;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
@@ -77,6 +80,8 @@ public class UserProfiles {
     	this.bloodGroup = request.getBloodGroup();
     	this.createdAt = LocalDateTime.now();
     	this.updatedAt = LocalDateTime.now();
+    	this.age = request.getAge();
+    	
 	}
 
 	// Getters and Setters
@@ -112,4 +117,23 @@ public class UserProfiles {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+	
+	
+    
 }

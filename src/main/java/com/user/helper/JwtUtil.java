@@ -12,8 +12,8 @@ import java.util.Date;
 public class JwtUtil {
 
     // ⚠️ Must be the same secret as Login-Service
-    private final String SECRET = "ZGe7eDBd1lSvPy8peQZjISBZIc/x40SBwlS5omD7Hlk=";
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+	private final String SECRET_KEY = "ZGe7eDBd1lSvPy8peQZjISBZIc/x40SBwlS5omD7Hlk=";
+//    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
     public String extractUsername(String token) {
         return extractClaims(token).getSubject();
@@ -21,7 +21,7 @@ public class JwtUtil {
 
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

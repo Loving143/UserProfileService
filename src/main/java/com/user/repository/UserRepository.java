@@ -11,11 +11,8 @@ import com.user.entity.UserProfiles;
 @Repository
 public interface UserRepository extends JpaRepository<UserProfiles, Long>{
 
-	boolean existsByUserId(Long userId);
 
 	List<UserProfiles> findByBloodGroup(String bloodGroup);
-
-	Optional<UserProfiles> findByUserId(Long userId);
 
 	boolean existsByUserName(String userName);
 

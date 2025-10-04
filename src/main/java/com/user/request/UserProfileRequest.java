@@ -2,8 +2,6 @@ package com.user.request;
 
 import java.time.LocalDate;
 
-import org.hibernate.annotations.processing.Pattern;
-
 public class UserProfileRequest {
 	
 	    private String firstName;
@@ -17,6 +15,8 @@ public class UserProfileRequest {
 	    private String bloodGroup;
 	    
 	    private String profilePicture;
+	    
+	    private Integer age;
 
 		public String getFirstName() {
 			return firstName;
@@ -64,6 +64,14 @@ public class UserProfileRequest {
 
 		public void setProfilePicture(String profilePicture) {
 			this.profilePicture = profilePicture;
+		}
+
+		public Integer getAge() {
+			return age;
+		}
+
+		public void setAge(Integer age) {
+			this.age = age;
 		}
 	    
 	    
