@@ -2,12 +2,14 @@ package com.user.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.user.request.UserProfileRequest;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +17,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -40,6 +43,9 @@ public class UserProfiles {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", length = 20)
     private Gender gender;
+    
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
+    private List<Prescription> prescriptions;
 
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
@@ -132,6 +138,14 @@ public class UserProfiles {
 
 	public void setAge(Integer age) {
 		this.age = age;
+	}
+
+	public List<Prescription> getPrescriptions() {
+		return prescriptions;
+	}
+
+	public void setPrescriptions(List<Prescription> prescriptions) {
+		this.prescriptions = prescriptions;
 	}
 	
 	
