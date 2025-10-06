@@ -6,9 +6,14 @@ public class MedicineResponse {
 
 	 private Long id;
 	 private String name;
+	 private String medicineCode;
 	 private String dosage;
 	 private String frequency;
 	 private String notes;
+	 private String imageUrl;
+	 private Double price;
+	 private Double discount;
+	 private Integer stockQuantity; 
 	 
 	public MedicineResponse(Medicine med) {
 		this.id = med.getId();
@@ -16,6 +21,11 @@ public class MedicineResponse {
 		this.dosage = med.getDosage();
 		this.frequency = med.getFrequency();
 		this.notes = med.getNotes();
+		this.medicineCode = med.getMedicineCode();
+		this.imageUrl = med.getImageUrl();
+		this.price = med.getPrice();
+		this.discount = med.getDiscountPercentage();
+		this.stockQuantity = med.getStockQuantity();
 	}
 	public Long getId() {
 		return id;
@@ -46,6 +56,36 @@ public class MedicineResponse {
 	}
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+	public String getMedicineCode() {
+		return medicineCode;
+	}
+	public void setMedicineCode(String medicineCode) {
+		this.medicineCode = medicineCode;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	public Double getDiscount() {
+		return discount;
+	}
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+	public Integer getStockQuantity() {
+		return stockQuantity;
+	}
+	public void setStockQuantity(Integer stockQuantity) {
+		this.stockQuantity = stockQuantity;
 	}
 	 
 	 
