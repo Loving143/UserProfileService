@@ -41,7 +41,6 @@ public class UserController {
 	    	this.prescriptionService = prescriptionService;
 			this.loginClient = loginClient;
 	    }
-	    
 	    @PostMapping("/create")	
 	    @PreAuthorize("hasRole('USER')")
 	    public ResponseEntity<?> createUserProfile(@RequestBody UserProfileRequest request) {

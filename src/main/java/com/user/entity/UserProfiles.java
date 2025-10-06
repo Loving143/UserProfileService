@@ -8,7 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.user.request.UserProfileRequest;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +42,6 @@ public class UserProfiles {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", length = 20)
     private Gender gender;
-    
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
     private List<Prescription> prescriptions;
 
@@ -139,7 +137,6 @@ public class UserProfiles {
 	public void setAge(Integer age) {
 		this.age = age;
 	}
-
 	public List<Prescription> getPrescriptions() {
 		return prescriptions;
 	}
