@@ -3,7 +3,10 @@ package com.user.entity;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import com.user.master.entity.MedicineSubCategory;
 import com.user.request.MedicineRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -47,6 +50,10 @@ public class Medicine {
     private String imageUrl;          
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    
+    @ManyToOne
+    @JoinColumn(name = "sub_category_id", nullable = false)
+    private MedicineSubCategory subCategory; //  only relation with subcategory
     
     public String getMedicineCode() {
 		return medicineCode;
