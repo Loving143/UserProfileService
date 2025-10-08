@@ -18,14 +18,10 @@ public class MedicineResponse {
 	public MedicineResponse(Medicine med) {
 		this.id = med.getId();
 		this.name = med.getName();
-		this.dosage = med.getDosage();
-		this.frequency = med.getFrequency();
 		this.notes = med.getNotes();
 		this.medicineCode = med.getMedicineCode();
 		this.imageUrl = med.getImageUrl();
-		this.price = med.getPrice();
 		this.discount = med.getDiscountPercentage();
-		this.stockQuantity = med.getStockQuantity();
 	}
 	public Long getId() {
 		return id;
