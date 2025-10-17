@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.user.MedicineStatus;
@@ -34,6 +36,7 @@ public class MedicineServiceImpl implements MedicineService{
 		return res;
 	}
 	@Override
+	@CacheEvict(value = "searchResults", allEntries = true)
 	public void addMedicine(MedicineRequest req) {
 		Medicine medicine = null;
 		MedicineSubCategory subcategory = subcategoryRepository.findBySubCategoryCode(req.getSubCategoryId())
@@ -69,6 +72,7 @@ public class MedicineServiceImpl implements MedicineService{
     }
 
     // ✅ Update by Code + Batch
+    @CacheEvict(value = "searchResults", allEntries = true)
     public Medicine updateByCodeAndBatch(String code, String batch,MedicineRequest req) {
 //        validate(req);
     	Medicine med = getByCodeAndBatch(code, batch);
@@ -78,6 +82,8 @@ public class MedicineServiceImpl implements MedicineService{
     }
 
     // ✅ Delete by Code + Batch
+
+    @CacheEvict(value = "searchResults", key = "#code.trim().toLowerCase()")
     public void deleteByCodeAndBatch(String code, String batch) {
         if (!medicineRepository.existsByMedicineCodeAndBatchNumber(code, batch)) {
             throw new RuntimeException("Medicine not found for code: " + code + " and batch: " + batch);
@@ -151,26 +157,35 @@ public class MedicineServiceImpl implements MedicineService{
         return list;
     }
 	@Override
-	public List<Medicine> searchMedicinesFullText(String query) {
-		        return medicineRepository.searchMedicinesFullText(query);
+	@Cacheable(
+		    value = "searchResults",
+		    key = "#keyword.trim().toLowerCase()",
+		    unless = "#result == null or #result.isEmpty()"
+		)
+	public List<Medicine> searchMedicinesFullText(String keyword) {
+		return medicineRepository.searchMedicinesFullText(keyword);
 	}
 	
+	 @Cacheable(value = "medicineCache", key = "#name.trim().toLowerCase()")
     public List<Medicine> getByName(String name) {
         return medicineRepository.findByName(name);
     }
 
     // Search by medicine code
+	 @Cacheable(value = "medicineCache", key = "#code.trim().toLowerCase()")
     public Medicine getByCode(String code) {
         return medicineRepository.findByMedicineCode(code)
                 .orElseThrow(() -> new RuntimeException("Medicine not found with code: " + code));
     }
 
     // Search by brand name
-    public List<Medicine> getByBrandName(String brandName) {
+	@Cacheable(value = "medicineCache", key = "#brandName.trim().toLowerCase()")
+	public List<Medicine> getByBrandName(String brandName) {
         return medicineRepository.findByBrandName(brandName);
     }
 
     // Search by manufacturer
+	@Cacheable(value = "medicineCache", key = "#manufacturer.trim().toLowerCase()")
     public List<Medicine> getByManufacturer(String manufacturer) {
         return medicineRepository.findByManufacturer(manufacturer);
     }
