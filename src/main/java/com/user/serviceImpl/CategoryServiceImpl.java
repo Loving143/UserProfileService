@@ -4,18 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.stereotype.Service;
 
 import com.user.master.entity.MedicineCategory;
 import com.user.master.entity.MedicineSubCategory;
 import com.user.repository.MedicineCategoryRepository;
 import com.user.repository.MedicineSubCategoryRepository;
-import com.user.request.AddCategoryRequest;
-import com.user.request.AddSubCategoryRequest;
 import com.user.service.CategoryService;
 
 import jakarta.ws.rs.BadRequestException;
-
+@Service
 public class CategoryServiceImpl implements CategoryService{
 
 	@Autowired
