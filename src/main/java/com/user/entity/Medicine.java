@@ -1,10 +1,10 @@
 package com.user.entity;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.user.MedicineStatus;
 import com.user.master.entity.MedicineSubCategory;
 import com.user.request.MedicineRequest;
 
@@ -15,13 +15,27 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "medicines")
+@Table(
+	    name = "medicines",
+	    indexes = {
+	    	@Index(name = "idx_medicine_name", columnList = "name"),  
+	        @Index(name = "idx_medicine_code", columnList = "medicineCode"),   
+	        @Index(name = "idx_medicine_brand_name", columnList = "brandName"),
+	        @Index(name = "idx_medicine_manufacturer", columnList = "manufacturer"),
+	        @Index(name = "idx_medicine_price", columnList = "price")
+	    },
+	    uniqueConstraints = {
+	        @UniqueConstraint(name = "uk_medicine_code", columnNames = "medicineCode")
+	    }
+	)
 public class Medicine {
 
     @Id
@@ -32,34 +46,60 @@ public class Medicine {
     private String medicineCode;
     
     private String name;
-    private String dosage;
-    private String frequency;
-    private Instant startDate;
-    private Instant endDate;
     private String brandName;                
     private String manufacturer;               
     private String description;    
-    private String composition;                
-    private String dosageForm;                 
-    private String strength;                   
-    private String unit;   
-    private Double price;                      
-    private Double mrp;                       
-    private Integer stockQuantity;       
+    private String composition;      
     private Double discount; 
+    private Integer availableStrip;
+    private Integer availableTablet;
+    private Double purchaseCostStrip;
+    private Double sellingCostStrip;
+    private Double purchaseCostTablet;
+    private Double sellingCostTablet;
     private LocalDate manufactureDate;
-    private LocalDate expiryDate;
-    private String storageTemperature;      
-    private String imageUrl;          
+    private LocalDate expiryDate;   
+    private String imageUrl;       
+    private String batchNumber;  
+    private String supplierName;  
+    private String supplierInvoiceNo; 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
+    @Column(length = 1000)
+    private String notes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prescription_id")
+    private Prescription prescription;
     @ManyToOne
     @JoinColumn(name = "sub_category_id", nullable = false)
     private MedicineSubCategory subCategory; 
     
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Batch> batches;
+
+    private MedicineStatus medicineStatus;
+    
+    public Medicine(MedicineRequest req) {
+		this.name = req.getName();
+		this.brandName = req.getBrandName();
+		this.batchNumber = req.getBatchNumber();
+		this.manufactureDate = req.getManufactureDate();
+		this.manufacturer = req.getManufacturer();
+		this.composition = req.getComposition();
+		this.description = req.getDescription();
+		this.composition = req.getComposition();
+		this.availableStrip = req.getStripQuantity();
+		this.purchaseCostStrip = req.getPurchaseCostStrip();
+		this.purchaseCostTablet = req.getPurchaseCostTablet();
+		this.expiryDate = req.getExpiryDate();
+		this.batchNumber = req.getBatchNumber();
+		this.supplierInvoiceNo = req.getSupplierInvoiceNo();
+		this.supplierName = req.getSupplierName();
+		this.medicineCode = req.getMedicineCode();
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt =LocalDateTime.now();
+		this.medicineStatus = MedicineStatus.AVAILABLE;
+	}
     
     public String getMedicineCode() {
 		return medicineCode;
@@ -101,54 +141,6 @@ public class Medicine {
 		this.composition = composition;
 	}
 
-	public String getDosageForm() {
-		return dosageForm;
-	}
-
-	public void setDosageForm(String dosageForm) {
-		this.dosageForm = dosageForm;
-	}
-
-	public String getStrength() {
-		return strength;
-	}
-
-	public void setStrength(String strength) {
-		this.strength = strength;
-	}
-
-	public String getUnit() {
-		return unit;
-	}
-
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public Double getMrp() {
-		return mrp;
-	}
-
-	public void setMrp(Double mrp) {
-		this.mrp = mrp;
-	}
-
-	public Integer getStockQuantity() {
-		return stockQuantity;
-	}
-
-	public void setStockQuantity(Integer stockQuantity) {
-		this.stockQuantity = stockQuantity;
-	}
-
 	public Double getDiscountPercentage() {
 		return discount;
 	}
@@ -173,13 +165,6 @@ public class Medicine {
 		this.expiryDate = expiryDate;
 	}
 
-	public String getStorageTemperature() {
-		return storageTemperature;
-	}
-
-	public void setStorageTemperature(String storageTemperature) {
-		this.storageTemperature = storageTemperature;
-	}
 
 	public String getImageUrl() {
 		return imageUrl;
@@ -204,23 +189,7 @@ public class Medicine {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
-	@Column(length = 1000)
-    private String notes;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prescription_id")
-    private Prescription prescription;
-
-	public Medicine(MedicineRequest req) {
-		this.name = req.getName();
-		this.dosage = req.getDosage();
-		this.frequency = req.getFrequency();
-		this.startDate = req.getStartDate();
-		this.endDate = req.getEndDate();
-		this.notes = req.getNotes();
-	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -235,38 +204,6 @@ public class Medicine {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDosage() {
-		return dosage;
-	}
-
-	public void setDosage(String dosage) {
-		this.dosage = dosage;
-	}
-
-	public String getFrequency() {
-		return frequency;
-	}
-
-	public void setFrequency(String frequency) {
-		this.frequency = frequency;
-	}
-
-	public Instant getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Instant startDate) {
-		this.startDate = startDate;
-	}
-
-	public Instant getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Instant endDate) {
-		this.endDate = endDate;
 	}
 
 	public String getNotes() {
@@ -293,6 +230,77 @@ public class Medicine {
 		this.discount = discount;
 	}
 
+	public Integer getAvailableStrip() {
+		return availableStrip;
+	}
+
+	public void setAvailableStrip(Integer availableStrip) {
+		this.availableStrip = availableStrip;
+	}
+
+	public Integer getAvailableTablet() {
+		return availableTablet;
+	}
+
+	public void setAvailableTablet(Integer availableTablet) {
+		this.availableTablet = availableTablet;
+	}
+
+	public Double getPurchaseCostStrip() {
+		return purchaseCostStrip;
+	}
+
+	public void setPurchaseCostStrip(Double purchaseCostStrip) {
+		this.purchaseCostStrip = purchaseCostStrip;
+	}
+
+	public Double getSellingCostStrip() {
+		return sellingCostStrip;
+	}
+
+	public void setSellingCostStrip(Double sellingCostStrip) {
+		this.sellingCostStrip = sellingCostStrip;
+	}
+
+	public Double getPurchaseCostTablet() {
+		return purchaseCostTablet;
+	}
+
+	public void setPurchaseCostTablet(Double purchaseCostTablet) {
+		this.purchaseCostTablet = purchaseCostTablet;
+	}
+
+	public Double getSellingCostTablet() {
+		return sellingCostTablet;
+	}
+
+	public void setSellingCostTablet(Double sellingCostTablet) {
+		this.sellingCostTablet = sellingCostTablet;
+	}
+
+	public String getBatchNumber() {
+		return batchNumber;
+	}
+
+	public void setBatchNumber(String batchNumber) {
+		this.batchNumber = batchNumber;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public String getSupplierInvoiceNo() {
+		return supplierInvoiceNo;
+	}
+
+	public void setSupplierInvoiceNo(String supplierInvoiceNo) {
+		this.supplierInvoiceNo = supplierInvoiceNo;
+	}
 	public MedicineSubCategory getSubCategory() {
 		return subCategory;
 	}
@@ -300,13 +308,19 @@ public class Medicine {
 	public void setSubCategory(MedicineSubCategory subCategory) {
 		this.subCategory = subCategory;
 	}
-
 	public List<Batch> getBatches() {
 		return batches;
 	}
 
 	public void setBatches(List<Batch> batches) {
 		this.batches = batches;
+	}
+	public MedicineStatus getStatus() {
+		return medicineStatus;
+	}
+
+	public void setStatus(MedicineStatus status) {
+		this.medicineStatus = status;
 	}
     
     

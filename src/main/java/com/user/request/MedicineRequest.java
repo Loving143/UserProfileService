@@ -1,53 +1,159 @@
 package com.user.request;
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
+
+import com.user.MedicineStatus;
 
 public class MedicineRequest {
 
 	 private String name;
-     private String dosage;
-     private String frequency;
-     private Instant startDate;
-     private Instant endDate;
-     private String notes;
+	 private String medicineCode;
+	 private String brandName;
+	 private String manufacturer; 
+	 private String description;  
+	 private String composition;      
+	 private Double discount;
+	 private LocalDate manufactureDate;
+	 private LocalDate expiryDate;   
+	 private String imageUrl;       
+	 private String batchNumber;  
+	 private String supplierName;  
+	 private String supplierInvoiceNo; 
+	 private String subCategoryCode;
+	 private Integer stripQuantity;
+	 private Double purchaseCostTablet;
+	 private Double sellingCostTablet;
+	 private Double purchaseCostStrip;
+	 private Double sellingCostStrip;
+	 private MedicineStatus medicineStatus;
+	 
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDosage() {
-		return dosage;
+	public String getBrandName() {
+		return brandName;
 	}
-	public void setDosage(String dosage) {
-		this.dosage = dosage;
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
 	}
-	public String getFrequency() {
-		return frequency;
+	public String getManufacturer() {
+		return manufacturer;
 	}
-	public void setFrequency(String frequency) {
-		this.frequency = frequency;
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
 	}
-	
-	public String getNotes() {
-		return notes;
+	public String getDescription() {
+		return description;
 	}
-	public void setNotes(String notes) {
-		this.notes = notes;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public Instant getStartDate() {
-		return startDate;
+	public String getComposition() {
+		return composition;
 	}
-	public void setStartDate(Instant startDate) {
-		this.startDate = startDate;
+	public void setComposition(String composition) {
+		this.composition = composition;
 	}
-	public Instant getEndDate() {
-		return endDate;
+	public Double getDiscount() {
+		return discount;
 	}
-	public void setEndDate(Instant endDate) {
-		this.endDate = endDate;
+	public void setDiscount(Double discount) {
+		this.discount = discount;
 	}
+	public LocalDate getManufactureDate() {
+		return manufactureDate;
+	}
+	public void setManufactureDate(LocalDate manufactureDate) {
+		this.manufactureDate = manufactureDate;
+	}
+	public LocalDate getExpiryDate() {
+		return expiryDate;
+	}
+	public void setExpiryDate(LocalDate expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public String getBatchNumber() {
+		return batchNumber;
+	}
+	public void setBatchNumber(String batchNumber) {
+		this.batchNumber = batchNumber;
+	}
+	public String getSupplierName() {
+		return supplierName;
+	}
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+	public String getSupplierInvoiceNo() {
+		return supplierInvoiceNo;
+	}
+	public void setSupplierInvoiceNo(String supplierInvoiceNo) {
+		this.supplierInvoiceNo = supplierInvoiceNo;
+	}
+	public String getSubCategoryId() {
+		return subCategoryCode;
+	}
+	public void setSubCategoryId(String subCategoryId) {
+		this.subCategoryCode = subCategoryId;
+	}
+	public String getMedicineCode() {
+		return medicineCode;
+	}
+	public void setMedicineCode(String medicineCode) {
+		this.medicineCode = medicineCode;
+	}
+	public String getSubCategoryCode() {
+		return subCategoryCode;
+	}
+	public void setSubCategoryCode(String subCategoryCode) {
+		this.subCategoryCode = subCategoryCode;
+	}
+	public Integer getStripQuantity() {
+		return stripQuantity;
+	}
+	public void setStripQuantity(Integer stripQuantity) {
+		this.stripQuantity = stripQuantity;
+	}
+	public Double getPurchaseCostTablet() {
+		return purchaseCostTablet;
+	}
+	public void setPurchaseCostTablet(Double purchaseCostTablet) {
+		this.purchaseCostTablet = purchaseCostTablet;
+	}
+	public Double getSellingCostTablet() {
+		return sellingCostTablet;
+	}
+	public void setSellingCostTablet(Double sellingCostTablet) {
+		this.sellingCostTablet = sellingCostTablet;
+	}
+	public Double getPurchaseCostStrip() {
+		return purchaseCostStrip;
+	}
+	public void setPurchaseCostStrip(Double purchaseCostStrip) {
+		this.purchaseCostStrip = purchaseCostStrip;
+	}
+	public Double getSellingCostStrip() {
+		return sellingCostStrip;
+	}
+	public void setSellingCostStrip(Double sellingCostStrip) {
+		this.sellingCostStrip = sellingCostStrip;
+	}
+	public MedicineStatus getMedicineStatus() {
+		return medicineStatus;
+	}
+	public void setMedicineStatus(MedicineStatus medicineStatus) {
+		this.medicineStatus = medicineStatus;
+	}
+     
      
      
 }
