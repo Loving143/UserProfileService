@@ -64,6 +64,8 @@ public class UserProfiles {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    private String healthCondition;
+    
     public enum Gender {
         MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY
     }
@@ -143,6 +145,14 @@ public class UserProfiles {
 
 	public void setPrescriptions(List<Prescription> prescriptions) {
 		this.prescriptions = prescriptions;
+	}
+
+	public String getHealthCondition() {
+		return healthCondition;
+	}
+
+	public void setHealthCondition(String healthCondition) {
+		this.healthCondition = healthCondition;
 	}
 	
 	

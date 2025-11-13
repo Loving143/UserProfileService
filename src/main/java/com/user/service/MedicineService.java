@@ -24,13 +24,13 @@ public interface MedicineService {
 
     List<Medicine> findByManufacturer(String manufacturer);
 
-    List<Medicine> searchMedicines(String keyword);
+    List<MedicineResponse> searchMedicines(String keyword);
 
     List<Medicine> findAllActiveMedicines();
 
     List<Medicine> findExpiredMedicines();
 
-	List<Medicine> searchMedicinesFullText(String query);
+	List<MedicineResponse> searchMedicinesFullText(String query);
 
 	List<Medicine> getByBrandName(String brandName);
 

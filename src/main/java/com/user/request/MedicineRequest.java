@@ -21,8 +21,6 @@ public class MedicineRequest {
 	 private String supplierInvoiceNo; 
 	 private String subCategoryCode;
 	 private Integer stripQuantity;
-	 private Double purchaseCostTablet;
-	 private Double sellingCostTablet;
 	 private Double purchaseCostStrip;
 	 private Double sellingCostStrip;
 	 private MedicineStatus medicineStatus;
@@ -99,12 +97,7 @@ public class MedicineRequest {
 	public void setSupplierInvoiceNo(String supplierInvoiceNo) {
 		this.supplierInvoiceNo = supplierInvoiceNo;
 	}
-	public String getSubCategoryId() {
-		return subCategoryCode;
-	}
-	public void setSubCategoryId(String subCategoryId) {
-		this.subCategoryCode = subCategoryId;
-	}
+	
 	public String getMedicineCode() {
 		return medicineCode;
 	}
@@ -122,18 +115,6 @@ public class MedicineRequest {
 	}
 	public void setStripQuantity(Integer stripQuantity) {
 		this.stripQuantity = stripQuantity;
-	}
-	public Double getPurchaseCostTablet() {
-		return purchaseCostTablet;
-	}
-	public void setPurchaseCostTablet(Double purchaseCostTablet) {
-		this.purchaseCostTablet = purchaseCostTablet;
-	}
-	public Double getSellingCostTablet() {
-		return sellingCostTablet;
-	}
-	public void setSellingCostTablet(Double sellingCostTablet) {
-		this.sellingCostTablet = sellingCostTablet;
 	}
 	public Double getPurchaseCostStrip() {
 		return purchaseCostStrip;

@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService{
     
     public UserProfileResponse updateUserProfile(String userName, UserProfileRequest request){
         UserProfiles existingProfile = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new BadRequestException("UserProfile"));
+                .orElseThrow(() -> new BadRequestException("User with User Name not found!!"));
         updateEntityFromRequest(existingProfile, request);
         UserProfiles updatedProfile = userRepository.save(existingProfile);
         
@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService{
         profile.setPhoneNumber(request.getPhoneNumber());
         profile.setBloodGroup(request.getBloodGroup());
         profile.setProfilePicture(request.getProfilePicture());
+        profile.setHealthCondition(request.getHealthCondition());
     }
     
     private UserProfileResponse mapToResponse(UserProfiles profile) {

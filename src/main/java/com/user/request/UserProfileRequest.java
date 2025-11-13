@@ -16,6 +16,8 @@ public class UserProfileRequest {
 	    
 	    private String profilePicture;
 	    
+	    private String healthCondition;
+	    
 	    private Integer age;
 
 		public String getFirstName() {
@@ -72,6 +74,14 @@ public class UserProfileRequest {
 
 		public void setAge(Integer age) {
 			this.age = age;
+		}
+
+		public String getHealthCondition() {
+			return healthCondition;
+		}
+
+		public void setHealthCondition(String healthCondition) {
+			this.healthCondition = healthCondition;
 		}
 	    
 	    

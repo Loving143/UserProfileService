@@ -62,7 +62,7 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
         @Query(value = """
             SELECT *, ts_rank(fulltext_vector, plainto_tsquery(:query)) AS rank
-            FROM Medicine
+            FROM medicines
             WHERE fulltext_vector @@ plainto_tsquery(:query)
             ORDER BY rank DESC
             """, nativeQuery = true)

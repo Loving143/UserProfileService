@@ -22,6 +22,7 @@ public class MedicineResponse {
 		this.medicineCode = med.getMedicineCode();
 		this.imageUrl = med.getImageUrl();
 		this.discount = med.getDiscountPercentage();
+		this.price = med.getSellingCostStrip();
 	}
 	public Long getId() {
 		return id;

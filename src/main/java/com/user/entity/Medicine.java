@@ -11,6 +11,8 @@ import com.user.request.MedicineRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -77,6 +79,7 @@ public class Medicine {
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Batch> batches;
 
+    @Enumerated(EnumType.STRING)
     private MedicineStatus medicineStatus;
     
     public Medicine(MedicineRequest req) {
@@ -90,7 +93,6 @@ public class Medicine {
 		this.composition = req.getComposition();
 		this.availableStrip = req.getStripQuantity();
 		this.purchaseCostStrip = req.getPurchaseCostStrip();
-		this.purchaseCostTablet = req.getPurchaseCostTablet();
 		this.expiryDate = req.getExpiryDate();
 		this.batchNumber = req.getBatchNumber();
 		this.supplierInvoiceNo = req.getSupplierInvoiceNo();
@@ -321,6 +323,11 @@ public class Medicine {
 
 	public void setStatus(MedicineStatus status) {
 		this.medicineStatus = status;
+	}
+
+	public Medicine() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
     
     

@@ -18,8 +18,6 @@ import com.user.request.MedicineRequest;
 import com.user.response.MedicineResponse;
 import com.user.service.MedicineService;
 
-import jakarta.ws.rs.BadRequestException;
-
 @Service
 public class MedicineServiceImpl implements MedicineService{
 
@@ -30,29 +28,26 @@ public class MedicineServiceImpl implements MedicineService{
 	private MedicineSubCategoryRepository subcategoryRepository;
 	@Override
 	public MedicineResponse fetchMedicineByMedicineCode(String medicineCode) {
+		System.out.println("Medicine Code: "+medicineCode);
 		Medicine medicine = medicineRepository.fetchByMedicineCode(medicineCode,MedicineStatus.ACTIVE).
-				orElseThrow(()-> new BadRequestException("Medicine with MedicineCode does not exists!!"));
+				orElseThrow(()-> new RuntimeException("Medicine with MedicineCode does not exists!!"));
 		MedicineResponse res= new MedicineResponse(medicine);
 		return res;
 	}
 	@Override
-	@CacheEvict(value = "searchResults", allEntries = true)
+//	@CacheEvict(value = "searchResults", allEntries = true)
 	public void addMedicine(MedicineRequest req) {
 		Medicine medicine = null;
-		MedicineSubCategory subcategory = subcategoryRepository.findBySubCategoryCode(req.getSubCategoryId())
-		.orElseThrow(()-> new BadRequestException("Medicine Subcategory not found!"));
+		MedicineSubCategory subcategory = subcategoryRepository.findBySubCategoryCode(req.getSubCategoryCode())
+		.orElseThrow(()-> new RuntimeException("Medicine Subcategory not found!"));
 		
 		if(medicineRepository.existsByMedicineCodeAndBatchNumber(req.getMedicineCode(),req.getBatchNumber())) {
 			medicine =	medicineRepository.findMedicineByMedicineCodeAndBatchNumber(req.getMedicineCode(),req.getBatchNumber());
 			int totalStripQuantity = medicine.getAvailableStrip() +req.getStripQuantity();
 			medicine.setAvailableStrip(totalStripQuantity);
-			medicine.setPurchaseCostStrip(req.getPurchaseCostStrip());
-			medicine.setSellingCostStrip(req.getSellingCostStrip());
-			medicine.setPurchaseCostTablet(req.getPurchaseCostTablet());
-			medicine.setSellingCostTablet(req.getSellingCostTablet());
 		}else {
 			if(medicineRepository.existsByMedicineCodeAndExpiryDate(req.getMedicineCode(),req.getExpiryDate()))
-					throw new BadRequestException("Same medicine having different batches can not have same expiry date!");
+					throw new RuntimeException("Same medicine having different batches can not have same expiry date!");
 				medicine = new Medicine(req);
 				medicine.setSubCategory(subcategory);
 		}
@@ -103,8 +98,6 @@ public class MedicineServiceImpl implements MedicineService{
         med.setDiscount(req.getDiscount());
         med.setPurchaseCostStrip(req.getPurchaseCostStrip());
         med.setSellingCostStrip(req.getSellingCostStrip());
-        med.setPurchaseCostTablet(req.getPurchaseCostTablet());
-        med.setSellingCostTablet(req.getSellingCostTablet());
         med.setManufactureDate(req.getManufactureDate());
         med.setExpiryDate(req.getExpiryDate());
         med.setSupplierName(req.getSupplierName());
@@ -116,7 +109,7 @@ public class MedicineServiceImpl implements MedicineService{
     public List<Medicine> findByBrandName(String brandName) {
         List<Medicine> list = medicineRepository.findByBrandNameIgnoreCase(brandName);
         if (list.isEmpty()) {
-            throw new BadRequestException("No medicines found for brand: " + brandName);
+            throw new RuntimeException("No medicines found for brand: " + brandName);
         }
         return list;
     }
@@ -125,16 +118,16 @@ public class MedicineServiceImpl implements MedicineService{
     public List<Medicine> findByManufacturer(String manufacturer) {
         List<Medicine> list = medicineRepository.findByManufacturerIgnoreCase(manufacturer);
         if (list.isEmpty()) {
-            throw new BadRequestException("No medicines found for manufacturer: " + manufacturer);
+            throw new RuntimeException("No medicines found for manufacturer: " + manufacturer);
         }
         return list;
     }
 
     @Override
-    public List<Medicine> searchMedicines(String keyword) {
-        List<Medicine> list = medicineRepository.searchMedicines(keyword,MedicineStatus.ACTIVE);
+    public List<MedicineResponse> searchMedicines(String keyword) {
+        List<MedicineResponse> list = medicineRepository.searchMedicines(keyword,MedicineStatus.ACTIVE).stream().map(MedicineResponse::new ).collect(Collectors.toList());
         if (list.isEmpty()) {
-            throw new BadRequestException("No medicines found matching: " + keyword);
+            throw new RuntimeException("No medicines found matching: " + keyword);
         }
         return list;
     }
@@ -143,7 +136,7 @@ public class MedicineServiceImpl implements MedicineService{
     public List<Medicine> findAllActiveMedicines() {
         List<Medicine> list = medicineRepository.findAllActiveMedicines(MedicineStatus.ACTIVE);
         if (list.isEmpty()) {
-            throw new BadRequestException("No active medicines found in inventory");
+            throw new RuntimeException("No active medicines found in inventory");
         }
         return list;
     }
@@ -152,18 +145,19 @@ public class MedicineServiceImpl implements MedicineService{
     public List<Medicine> findExpiredMedicines() {
         List<Medicine> list = medicineRepository.findExpiredMedicines(MedicineStatus.EXPIRED);
         if (list.isEmpty()) {
-            throw new BadRequestException("No expired medicines found");
+            throw new RuntimeException("No expired medicines found");
         }
         return list;
     }
 	@Override
-	@Cacheable(
-		    value = "searchResults",
-		    key = "#keyword.trim().toLowerCase()",
-		    unless = "#result == null or #result.isEmpty()"
-		)
-	public List<Medicine> searchMedicinesFullText(String keyword) {
-		return medicineRepository.searchMedicinesFullText(keyword);
+//	@Cacheable(
+//		    value = "searchResults",
+//		    key = "#keyword.trim().toLowerCase()",
+//		    unless = "#result == null or #result.isEmpty()"
+//		)
+	public List<MedicineResponse> searchMedicinesFullText(String keyword) {
+		return medicineRepository.searchMedicinesFullText(keyword).
+				stream().map(MedicineResponse::new ).collect(Collectors.toList());
 	}
 	
 	 @Cacheable(value = "medicineCache", key = "#name.trim().toLowerCase()")

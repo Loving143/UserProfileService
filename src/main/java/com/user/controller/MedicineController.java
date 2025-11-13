@@ -32,7 +32,7 @@ public class MedicineController {
 	}
 	
 	 // ✅ CREATE
-    @PostMapping
+    @PostMapping("/addMedicine")
     public ResponseEntity<String> create(@RequestBody MedicineRequest req) {
     	medicineService.addMedicine(req);
         return ResponseEntity.ok("Medicine created successfully!!");
@@ -79,9 +79,15 @@ public class MedicineController {
         return medicineService.getByManufacturer(manufacturer);
     }
     @GetMapping("/search/fullText")
-    public List<Medicine> searchMedicines(@RequestParam String query) {
+    public List<MedicineResponse> searchMedicines(@RequestParam String query) {
         return medicineService.searchMedicinesFullText(query);
     }
+    
+    @GetMapping("/search/keyword") //This is very important for searching.
+    public List<MedicineResponse> searchMedicinesByKeyword(@RequestParam String query) {
+        return medicineService.searchMedicines(query);
+    }
+    
 
     @GetMapping("/active")
     public ResponseEntity<?> getActiveMedicines() {
