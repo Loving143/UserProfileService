@@ -3,14 +3,14 @@ spring:
     name: userprofile-service
 
 server:
-  port: ${PORT:8044}
+  port: ${PORT}
 
 eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_URL}
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
     instance-id: "${spring.application.name}:${server.port}"
 
 management:
