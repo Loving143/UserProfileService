@@ -1,6 +1,7 @@
 package com.user.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.user.entity.Medicine;
+import com.user.master.entity.MedicineCategory;
+import com.user.master.entity.MedicineSubCategory;
 import com.user.request.MedicineRequest;
+import com.user.response.CategoryResponse;
 import com.user.response.MedicineResponse;
 import com.user.service.MedicineService;
 
@@ -25,6 +29,7 @@ public class MedicineController {
 	
 	@Autowired
 	private MedicineService medicineService;
+	
 	@GetMapping("fetchMedicine/{medicineCode}")
 	public MedicineResponse fetchMedicineByMedicineCode(@PathVariable String medicineCode){
 		MedicineResponse res =  medicineService.fetchMedicineByMedicineCode(medicineCode);
@@ -98,6 +103,23 @@ public class MedicineController {
     public ResponseEntity<?> getExpiredMedicines() {
         return ResponseEntity.ok(medicineService.findExpiredMedicines());
     }
+    
+    @GetMapping("/user/categories")
+    public ResponseEntity<List<CategoryResponse>> getCategories() {
+        return ResponseEntity.ok(medicineService.getAllCategories());
+    }
+    
+    @GetMapping("/user/subCategories")
+    public ResponseEntity<List<MedicineSubCategory>> getSubCategories() {
+        return ResponseEntity.ok(medicineService.getAllSubCategories());
+    }
+    
+    @GetMapping("/user/fetchMedicine/{subCategoryCode}")
+	public List<MedicineResponse> fetchMedicineBySuCatCodeForUser(@PathVariable String subCategoryCode){
+		return medicineService.fetchMedicineBySubCatCode(subCategoryCode);
+		
+	}
+    
     
     
 

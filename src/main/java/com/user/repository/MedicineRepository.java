@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.user.MedicineStatus;
 import com.user.entity.Medicine;
+import com.user.response.MedicineResponse;
 
 @Repository
 public interface MedicineRepository extends JpaRepository<Medicine, Long> {
@@ -75,6 +76,12 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 		List<Medicine> findByManufacturer(String manufacturer);
 
 		Optional<Medicine> findByMedicineCode(String code);
+
+		@Query("Select med "
+				+ " from Medicine med "
+				+ " inner join med.subCategory subCat"
+				+ " where subCat.subCategoryCode =:subCatCode")
+		List<Medicine> fetchMedicineBySubCatCode(String subCatCode);
     
 
 

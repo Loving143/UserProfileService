@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.user.MedicineStatus;
 import com.user.entity.Medicine;
+import com.user.master.entity.MedicineCategory;
 import com.user.master.entity.MedicineSubCategory;
+import com.user.repository.MedicineCategoryRepository;
 import com.user.repository.MedicineRepository;
 import com.user.repository.MedicineSubCategoryRepository;
 import com.user.request.MedicineRequest;
+import com.user.response.CategoryResponse;
 import com.user.response.MedicineResponse;
 import com.user.service.MedicineService;
 
@@ -23,6 +26,9 @@ public class MedicineServiceImpl implements MedicineService{
 
 	@Autowired
 	private MedicineRepository medicineRepository;
+	
+	@Autowired
+	private MedicineCategoryRepository catgeoryRepo;
 	
 	@Autowired
 	private MedicineSubCategoryRepository subcategoryRepository;
@@ -183,6 +189,19 @@ public class MedicineServiceImpl implements MedicineService{
     public List<Medicine> getByManufacturer(String manufacturer) {
         return medicineRepository.findByManufacturer(manufacturer);
     }
+	@Override
+	public List<CategoryResponse> getAllCategories() {
+		return catgeoryRepo.findAll().stream().map(CategoryResponse::new).collect(Collectors.toList());
+	}
+	@Override
+	public List<MedicineSubCategory> getAllSubCategories() {
+		return subcategoryRepository.findAll();
+	}
+	@Override
+	public List<MedicineResponse> fetchMedicineBySubCatCode(String subCatCode) {
+		return medicineRepository.fetchMedicineBySubCatCode(subCatCode)
+				.stream().map(MedicineResponse::new).collect(Collectors.toList());
+	}
 
 
 }

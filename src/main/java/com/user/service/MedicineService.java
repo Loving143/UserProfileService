@@ -3,7 +3,9 @@ package com.user.service;
 import java.util.List;
 
 import com.user.entity.Medicine;
+import com.user.master.entity.MedicineSubCategory;
 import com.user.request.MedicineRequest;
+import com.user.response.CategoryResponse;
 import com.user.response.MedicineResponse;
 
 public interface MedicineService {
@@ -39,5 +41,11 @@ public interface MedicineService {
 	List<Medicine> getByName(String name);
 
 	Medicine getByCode(String code);
+
+	List<CategoryResponse> getAllCategories();
+
+	List<MedicineSubCategory> getAllSubCategories();
+
+	List<MedicineResponse> fetchMedicineBySubCatCode(String medicineCode);
 
 }

@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/public/**").permitAll()
+                    .requestMatchers("/medicine/user/**").permitAll()
                     .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex

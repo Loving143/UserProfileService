@@ -36,6 +36,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
 
+        String uri = request.getRequestURI();
+
+        // Skip JWT check for public APIs
+        if (uri.startsWith("/medicine/user/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
             if (jwtUtil.validateToken(token)) {
